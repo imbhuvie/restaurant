@@ -11,15 +11,15 @@
 <body class="bg-gray-500 flex flex-col h-screen">
     <%@include file="navbar.jsp" %>
 
-    <div class="flex justify-center w-full mx-auto p-10">
-    <div class="bg-gray-400 p-8 rounded-lg shadow-lg">
+    <div class="flex justify-center w-full mx-auto p-6 ">
+    <div class="w-full bg-gray-400 p-5 rounded-lg shadow-lg">
         <c:if test="${not empty msg}" >
                  <p class="text-center text-s text-green-800 " >${msg}</p>
              </c:if>
              <c:if test="${not empty error}" >
                      <p class="text-center text-s text-red-800 " >${error}</p>
              </c:if>
-            <div class="container w-full mx-auto">
+            <div class="w-full mx-auto ">
                     <h2 class="text-2xl font-bold mb-4 text-center">Inventories List</h2>
                             <c:if test="${not empty ifNotInventories}" >
                                                               <p class="text-center font-semibold text-s text-red-800 " >${ifNotInventories}</p>
@@ -37,6 +37,7 @@
                                 <th class="border border-gray-300 px-4 py-2">Issued</th>
                                 <th class="border border-gray-300 px-4 py-2">Total stock</th>
                                 <th class="border border-gray-300 px-4 py-2">Closing stock</th>
+                                <th class="border border-gray-300 px-4 py-2">Measurement Unit</th>
                                 <th class="border border-gray-300 px-4 py-2">Supplier</th>
                                 <th class="border border-gray-300 px-4 py-2">Date</th>
                             </tr>
@@ -53,6 +54,7 @@
                                     <td class="border border-gray-300 px-4 py-2">${inventory.issuedStock}</td>
                                     <td class="border border-gray-300 px-4 py-2">${inventory.totalStock}</td>
                                     <td class="border border-gray-300 px-4 py-2">${inventory.closingStock}</td>
+                                    <td class="border border-gray-300 px-4 py-2">${inventory.item.unit.unitName}</td>
                                     <td class="border border-gray-300 px-4 py-2">${inventory.supplier.supplierName}</td>
                                     <td class="border border-gray-300 px-4 py-2">${inventory.date}</td>
                                 </tr>

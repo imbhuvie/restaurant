@@ -11,25 +11,26 @@
 <body class="bg-gray-500 flex flex-col h-screen">
     <%@include file="navbar.jsp" %>
 
-    <div class="flex justify-center w-full mx-auto p-10">
-    <div class="bg-gray-400 p-8 rounded-lg shadow-lg w-96">
-        <c:if test="${not empty msg}" >
-                 <p class="text-center text-s text-green-800 " >${msg}</p>
-             </c:if>
-             <c:if test="${not empty error}" >
-                     <p class="text-center text-s text-red-800 " >${error}</p>
-             </c:if>
-            <div class="container mx-auto">
-                    <h2 class="text-2xl font-bold mb-4 text-center">Items List</h2>
-<c:if test="${not empty ifNotItems}" >
-                                  <p class="text-center font-semibold text-s text-red-800 " >${ifNotItems}</p>
-                          </c:if>
-                          <c:if test="${not empty items}">
+    <div class="flex justify-center w-2/3 mx-auto p-10">
+        <div class="bg-gray-400 w-full p-8 rounded-lg shadow-lg w-96">
+                <c:if test="${not empty msg}" >
+                    <p class="text-center text-s text-green-800 " >${msg}</p>
+                </c:if>
+                <c:if test="${not empty error}" >
+                    <p class="text-center text-s text-red-800 " >${error}</p>
+                </c:if>
+            <div class="w-full mx-auto">
+                <h2 class="text-2xl font-bold mb-4 text-center">Items List</h2>
+                <c:if test="${not empty ifNotItems}" >
+                    <p class="text-center font-semibold text-s text-red-800 " >${ifNotItems}</p>
+                </c:if>
+                <c:if test="${not empty items}">
                     <table class="w-full border-collapse border border-gray-300 bg-white shadow-lg">
-                        <thead>
+                         <thead>
                             <tr class="bg-blue-500 text-white">
                                 <th class="border border-gray-300 px-4 py-2">S. No.</th>
                                 <th class="border border-gray-300 px-4 py-2">Item Name</th>
+                                <th class="border border-gray-300 px-4 py-2">Measurement Unit</th>
                                 <th class="border border-gray-300 px-4 py-2">Description</th>
                             </tr>
                         </thead>
@@ -39,15 +40,15 @@
                                 <tr class="hover:bg-gray-100">
                                     <td class="border border-gray-300 px-4 py-2"><%= i++ %></td>
                                     <td class="border border-gray-300 px-4 py-2">${item.itemName}</td>
+                                    <td class="border border-gray-300 px-4 py-2">${item.unit.unitName}</td>
                                     <td class="border border-gray-300 px-4 py-2">${item.itemDescription}</td>
                                 </tr>
                             </c:forEach>
                         </tbody>
                     </table>
-                    </c:if>
-                </div>
+                </c:if>
+            </div>
         </div>
-
     </div>
 </body>
 </html>

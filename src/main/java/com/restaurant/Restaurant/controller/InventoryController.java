@@ -2,9 +2,11 @@ package com.restaurant.Restaurant.controller;
 
 import com.restaurant.Restaurant.entity.Inventory;
 import com.restaurant.Restaurant.entity.Item;
+import com.restaurant.Restaurant.entity.MeasurementUnit;
 import com.restaurant.Restaurant.entity.Supplier;
 import com.restaurant.Restaurant.service.InventoryService;
 import com.restaurant.Restaurant.service.ItemService;
+import com.restaurant.Restaurant.service.MeasurementUnitService;
 import com.restaurant.Restaurant.service.SupplierService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -25,6 +27,8 @@ public class InventoryController {
     SupplierService supplierService;
     @Autowired
     InventoryService inventoryService;
+    @Autowired
+    MeasurementUnitService measurementUnitService;
 
     //    TO GOTO HOMEPAGE
     @GetMapping("/")
@@ -84,12 +88,14 @@ public class InventoryController {
     public String goToAddItems(Model model) {
         Item item = new Item();
         model.addAttribute("item", item);
+        model.addAttribute("units", measurementUnitService.allUnits());
         return "addItems";
     }
 //    ADD ITEMS
 
     @PostMapping("/addItem")
     public String insertItem(@ModelAttribute("item") Item item, RedirectAttributes redirectAttributes) {
+        System.out.println(item);
         Item item1 = itemService.insertItem(item);
         if (item1 != null) {
             redirectAttributes.addFlashAttribute("msg", "Item added");
@@ -107,6 +113,7 @@ public class InventoryController {
     @GetMapping("/inventories")
     public String findAllInventories(Model model) {
         List<Inventory> inventories = inventoryService.findAllInventory();
+        System.out.println(inventories);
         if (inventories.isEmpty())
             model.addAttribute("ifNotInventories", "No inventories Found.");
         else
@@ -193,6 +200,38 @@ public class InventoryController {
         }
     }
 
+
+//    =======================================LOGIN & REGISTER END-POINTS====================================================
+//    TO SHOW MEASUREMENT UNITS
+    @GetMapping("/unit")
+    public String showAllUnits(Model model){
+        List<MeasurementUnit> units=measurementUnitService.allUnits();
+        if(units.isEmpty()){
+            model.addAttribute("ifNotUnits","Unit list is empty, Add first.");
+        }else {
+        model.addAttribute("units",units);
+        }
+        return "units";
+    }
+
+//    TO GOTO ADD MEASUREMENT UNITS
+    @GetMapping("/add-unit")
+    public String goToAddMeasurementUnit(Model model){
+        model.addAttribute("measurementUnit", new MeasurementUnit());
+        return "addUnits";
+    }
+//    TO INSERT UNIT DB
+    @PostMapping("/addUnit")
+    public String insertMeasurementUnit(@ModelAttribute("measurementUnit") MeasurementUnit unit,RedirectAttributes redirectAttributes){
+        System.out.println("Unit added : "+unit);
+        MeasurementUnit measurementUnit = measurementUnitService.addUnit(unit);
+        if(measurementUnit!=null){
+            redirectAttributes.addFlashAttribute("msg","Unit Added.");
+        }else {
+            redirectAttributes.addFlashAttribute("error","Unit not added.");
+        }
+        return "redirect:add-unit";
+    }
 
 //    =======================================LOGIN & REGISTER END-POINTS====================================================
 

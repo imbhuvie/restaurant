@@ -12,6 +12,10 @@ public class Item {
     @Column(nullable = false)
     private String itemName;
 
+    @ManyToOne
+    @JoinColumn(name = "unitId")
+    private MeasurementUnit unit;
+
     private String itemDescription;
 
     public Long getItemId() {
@@ -38,11 +42,20 @@ public class Item {
         this.itemDescription = itemDescription;
     }
 
+    public MeasurementUnit getUnit() {
+        return unit;
+    }
+
+    public void setUnit(MeasurementUnit unit) {
+        this.unit = unit;
+    }
+
     @Override
     public String toString() {
         return "Item{" +
                 "itemId=" + itemId +
                 ", itemName='" + itemName + '\'' +
+                ", unit=" + unit +
                 ", itemDescription='" + itemDescription + '\'' +
                 '}';
     }

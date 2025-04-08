@@ -1,3 +1,4 @@
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html lang="en">
@@ -24,6 +25,16 @@
                     <input type="text" id="itemName" name="itemName" required
                         class="w-full m-1 px-3 py-1 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
                 </div>
+                <div class="mb-4">
+                            <label for="unit" class="block text-gray-700 font-semibold">Select Measurement Unit</label>
+                            <select id="unit" name="unit" required
+                                class="w-full m-1 px-3 py-1 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                <option selected disabled>Select Measurement Unit</option>
+                                <c:forEach var="unit" items="${units}">
+                                    <option value=${unit.id}>${unit.unitName}</option>
+                                </c:forEach>
+                            </select>
+                        </div>
 
                 <div class="mb-4">
                     <label for="itemDescription" class="block text-gray-700 font-semibold">Item Description</label>

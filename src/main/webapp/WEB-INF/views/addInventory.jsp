@@ -27,7 +27,7 @@
                                     class="w-full m-1 px-3 py-1 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
                                     <option selected disabled>select</option>
                                     <c:forEach items="${items}" var="item">
-                                            <option value=${item.itemId}>${item.itemName}(${item.itemId})</option>
+                                            <option value=${item.itemId} data-unit="${item.unit.unitName}">${item.itemName}(${item.itemId})</option>
                                     </c:forEach>
                                     </select>
                             </div>
@@ -43,7 +43,7 @@
                                         </div>
 
                 <div class="mb-4">
-                                    <label for="currentPurchases" class="block text-gray-700 font-semibold">Current Purchase</label>
+                                    <label for="currentPurchases" class="block text-gray-700 font-semibold">Current Purchase<span id="unitLabel"></span></label>
                                     <input type="text" id="currentPurchases" name="currentPurchases" required
                                         class="w-full m-1 px-3 py-1 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
                  </div>
@@ -54,5 +54,18 @@
         </div>
 
     </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const itemSelect = document.getElementById('item');
+            const unitLabel = document.getElementById('unitLabel');
+
+            itemSelect.addEventListener('change', function () {
+                const selectedOption = this.options[this.selectedIndex];
+                const unit = selectedOption.getAttribute('data-unit');
+                unitLabel.textContent = '('+unit+')' || '--';
+            });
+        });
+    </script>
+
 </body>
 </html>

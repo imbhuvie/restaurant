@@ -1,9 +1,11 @@
 <nav class="w-full bg-gray-800 text-white p-4 shadow-md px-10">
       <div class="flex justify-between items-center">
             <!-- Logo -->
-                <div class="text-2xl font-bold">Restaurant</div>
+                <div class="text-2xl font-bold"><a href="/" class="hover:text-gray-400">Restaurant</a></div>
             <!-- Navigation Links -->
             <div class="flex space-x-6">
+                  <a href="/unit" class="hover:text-gray-400">MeasurementUnit</a>
+                  <a href="/add-unit" class="hover:text-gray-400">Add Unit</a>
                   <a href="/items" class="hover:text-gray-400">Items</a>
                   <a href="/add-item" class="hover:text-gray-400">Add Items</a>
                   <a href="/suppliers" class="hover:text-gray-400">Suppliers</a>
