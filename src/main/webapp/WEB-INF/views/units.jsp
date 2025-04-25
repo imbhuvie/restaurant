@@ -30,6 +30,8 @@
                             <tr class="bg-blue-500 text-white">
                                 <th class="border border-gray-300 px-4 py-2">S. No.</th>
                                 <th class="border border-gray-300 px-4 py-2">Unit Name</th>
+                                <th class="border border-gray-300 px-4 py-2">SubUnit Name</th>
+                                <th class="border border-gray-300 px-4 py-2">Unit Symbol</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -38,6 +40,8 @@
                                 <tr class="hover:bg-gray-100">
                                     <td class="border border-gray-300 px-4 py-2"><%= i++ %></td>
                                     <td class="border border-gray-300 px-4 py-2">${unit.unitName}</td>
+                                    <td class="border border-gray-300 px-4 py-2">${unit.subUnitName}</td>
+                                    <td class="border border-gray-300 px-4 py-2">${unit.symbol}</td>
                                 </tr>
                             </c:forEach>
                         </tbody>

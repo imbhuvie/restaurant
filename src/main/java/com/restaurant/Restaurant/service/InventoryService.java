@@ -12,4 +12,7 @@ public interface InventoryService {
     List<Inventory> findAllInventory();
 
     Inventory findInventoryByItemId(Long itemId);
+
+
+    double getStockById(long id);
 }

@@ -14,7 +14,11 @@ public class MeasurementUnitServiceImpl implements MeasurementUnitService {
     MeasurementUnitRepository measurementUnitRepository;
     @Override
     public MeasurementUnit addUnit(MeasurementUnit measurementUnit) {
+        MeasurementUnit existUnit = measurementUnitRepository.findByUnitName(measurementUnit.getUnitName());
+        if(existUnit==null){
         return measurementUnitRepository.save(measurementUnit);
+        }
+        else return null;
     }
 
     @Override

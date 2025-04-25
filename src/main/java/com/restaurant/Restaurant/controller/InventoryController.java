@@ -11,9 +11,7 @@ import com.restaurant.Restaurant.service.SupplierService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
@@ -164,40 +162,45 @@ public class InventoryController {
     //  ISSUE INVENTORY
     @GetMapping("/issue-inventory")
     public String goToIssueInventory(Model model) {
+
         List<Item> items = itemService.findAllItems();
-        List<Supplier> suppliers = supplierService.findAllSuppliers();
+//        List<Supplier> suppliers = supplierService.findAllSuppliers();
         System.out.println(items);
-        System.out.println(suppliers);
+//        System.out.println(suppliers);
         model.addAttribute("items", items);
-        model.addAttribute("suppliers", suppliers);
+//        model.addAttribute("suppliers", suppliers);
         model.addAttribute("inventory", new Inventory());
         return "issueInventory";
+    }
+    @GetMapping("/get-available-stock")
+    @ResponseBody  // This is IMPORTANT for AJAX to receive raw data
+    public double getAvailableStock(@RequestParam("id") long id) {
+        return inventoryService.getStockById(id);
     }
 
     //  PURCHASE INVENTORY
     @PostMapping("/issueInventory")
     public String issuedInventory(@ModelAttribute("inventory") Inventory inventory, RedirectAttributes redirectAttributes) {
-//        System.out.println(inventory);
+        System.out.println(inventory.getIssuedStock());
         Inventory inventoryExists = inventoryService.findInventoryByItemId(inventory.getItem().getItemId());
-        System.out.println("====================================");
-        System.out.println(inventoryExists);
-        System.out.println("+=======================================");
-        if (inventoryExists != null && inventory.getIssuedStock() < inventoryExists.getTotalStock()) {
-            inventory.setOpeningStock(inventoryExists.getTotalStock());
-            inventory.setTotalStock(inventoryExists.getTotalStock() - inventory.getIssuedStock());
-            inventory.setClosingStock(inventory.getTotalStock());
-        } else {
-            redirectAttributes.addFlashAttribute("error", "Item does not exists.");
-            return "redirect:issue-inventory";
-        }
-        Inventory inventory1 = inventoryService.insertInventory(inventory);
-        if (inventory1 != null) {
+
+        if (inventoryExists != null ) {
+            if(inventory.getIssuedStock() < inventoryExists.getTotalStock()){
+            inventoryExists.setOpeningStock(inventoryExists.getTotalStock());
+            inventoryExists.setTotalStock(inventoryExists.getTotalStock()-inventory.getIssuedStock());
+            inventoryExists.setClosingStock((inventoryExists.getTotalStock()));
+            Inventory inventory1 = inventoryService.insertInventory(inventoryExists);
             redirectAttributes.addFlashAttribute("msg", "stock issued successfully.");
             return "redirect:issue-inventory";
+            }else {
+                redirectAttributes.addFlashAttribute("error", "Stock is not sufficiant.");
+                return "redirect:issue-inventory";
+            }
         } else {
-            redirectAttributes.addFlashAttribute("error", "stock issued failed.");
+            redirectAttributes.addFlashAttribute("error", "Item does not exists.Add first please.");
             return "redirect:issue-inventory";
         }
+
     }
 
 
@@ -224,6 +227,7 @@ public class InventoryController {
     @PostMapping("/addUnit")
     public String insertMeasurementUnit(@ModelAttribute("measurementUnit") MeasurementUnit unit,RedirectAttributes redirectAttributes){
         System.out.println("Unit added : "+unit);
+
         MeasurementUnit measurementUnit = measurementUnitService.addUnit(unit);
         if(measurementUnit!=null){
             redirectAttributes.addFlashAttribute("msg","Unit Added.");
@@ -232,6 +236,7 @@ public class InventoryController {
         }
         return "redirect:add-unit";
     }
+
 
 //    =======================================LOGIN & REGISTER END-POINTS====================================================
 

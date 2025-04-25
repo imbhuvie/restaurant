@@ -20,28 +20,28 @@
                              </c:if>
             <form action="addSupplier" method="post">
                 <div class="mb-4">
-                    <label for="supplierName" class="block text-gray-700 font-semibold">Supplier Name</label>
+                    <label for="supplierName" class="block text-gray-700 font-semibold">Firm Name</label>
                     <input type="text" id="supplierName" name="supplierName" required
                         class="w-full m-1 px-3 py-1 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
                 </div>
                 <div class="mb-4">
-                                    <label for="supplierContact" class="block text-gray-700 font-semibold">Supplier Contact</label>
+                                    <label for="supplierContact" class="block text-gray-700 font-semibold">Firm Contact</label>
                                     <input type="text" id="supplierContact" name="supplierContact" required
                                         class="w-full m-1 px-3 py-1 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
                                 </div>
                 <div class="mb-4">
-                                    <label for="supplierPersonName" class="block text-gray-700 font-semibold">Supplier Person Name</label>
+                                    <label for="supplierPersonName" class="block text-gray-700 font-semibold">Contact Person Name</label>
                                     <input type="text" id="supplierPersonName" name="supplierPersonName" required
                                         class="w-full m-1 px-3 py-1 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
                                 </div>
                 <div class="mb-4">
-                                    <label for="supplierPersonContact" class="block text-gray-700 font-semibold">Supplier Person Contact</label>
+                                    <label for="supplierPersonContact" class="block text-gray-700 font-semibold">Contact Person Mobile</label>
                                     <input type="text" id="supplierPersonContact" name="supplierPersonContact" required
                                         class="w-full m-1 px-3 py-1 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
                                 </div>
 
                 <div class="mb-4">
-                    <label for="supplierAddress" class="block text-gray-700 font-semibold">Supplier Address</label>
+                    <label for="supplierAddress" class="block text-gray-700 font-semibold">Firm Address</label>
                     <textarea id="supplierAddress" name="supplierAddress" required
                         class="w-full m-1 px-3 py-1 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
                 </div>

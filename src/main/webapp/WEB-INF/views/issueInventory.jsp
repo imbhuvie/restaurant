@@ -7,6 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Insert Item</title>
     <script src="https://cdn.tailwindcss.com"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 </head>
 <body class="bg-gray-500 flex flex-col h-screen">
     <%@include file="navbar.jsp" %>
@@ -31,16 +33,12 @@
                                     </c:forEach>
                                     </select>
                             </div>
-            <div class="mb-4">
-                                            <label for="supplier" class="block text-gray-700 font-semibold">Select Supplier</label>
-                                            <select id="supplier" name="supplier" required
-                                                class="w-full m-1 px-3 py-1 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
-                                                <option selected disabled>select</option>
-                                                <c:forEach items="${suppliers}" var="supplier">
-                                                        <option value=${supplier.supplierId}>${supplier.supplierName}(${supplier.supplierId})</option>
-                                                </c:forEach>
-                                                </select>
-                                        </div>
+            <div id="stockContainer" class="mb-4 hidden">
+                <label for="availableStock" class="block text-gray-700 font-semibold">Available Stock</label>
+                <input type="text" id="availableStock" name="availableStock" disabled
+                    class="w-full m-1 px-3 py-1 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+            </div>
+
 
                 <div class="mb-4">
                                     <label for="issuedStock" class="block text-gray-700 font-semibold">Issued Stock<span id="unitLabel"></span></label>
@@ -55,16 +53,44 @@
 
     </div>
         <script>
-            document.addEventListener('DOMContentLoaded', () => {
-                const itemSelect = document.getElementById('item');
+
+            var $jq = jQuery.noConflict();
+
+            $jq(document).ready(function () {
                 const unitLabel = document.getElementById('unitLabel');
+                const itemSelect = document.getElementById('item');
+                const stockContainer = document.getElementById('stockContainer');
 
                 itemSelect.addEventListener('change', function () {
+                    const itemId = this.value;
+
+                    if (itemId) {
+                        // Show stock container
+                        stockContainer.classList.remove("hidden");
+
+                        // Fetch stock using AJAX
+                        $jq.ajax({
+                            type: 'GET',
+                            url: '/get-available-stock',
+                            data: { id: itemId },
+                            success: function (data) {
+                                $jq("#availableStock").val(data);
+                            },
+                            error: function () {
+                                alert("Error fetching stock");
+                            }
+                        });
+                    }
+
+                    // Update unit label
                     const selectedOption = this.options[this.selectedIndex];
                     const unit = selectedOption.getAttribute('data-unit');
-                    unitLabel.textContent = '('+unit+')' || '--';
+                    unitLabel.textContent = '(' + unit + ')' || '--';
                 });
             });
+
+
+
         </script>
 </body>
 </html>

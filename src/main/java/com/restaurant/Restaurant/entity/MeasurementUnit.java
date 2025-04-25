@@ -11,6 +11,18 @@ public class MeasurementUnit {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String unitName;
+    private String subUnitName;
+    private String symbol;
+
+    @Override
+    public String toString() {
+        return "MeasurementUnit{" +
+                "id=" + id +
+                ", unitName='" + unitName + '\'' +
+                ", subUnitName='" + subUnitName + '\'' +
+                ", symbol='" + symbol + '\'' +
+                '}';
+    }
 
     public Long getId() {
         return id;
@@ -28,11 +40,19 @@ public class MeasurementUnit {
         this.unitName = unitName;
     }
 
-    @Override
-    public String toString() {
-        return "MeasurementUnit{" +
-                "unitName='" + unitName + '\'' +
-                ", id=" + id +
-                '}';
+    public String getSubUnitName() {
+        return subUnitName;
+    }
+
+    public void setSubUnitName(String subUnitName) {
+        this.subUnitName = subUnitName;
+    }
+
+    public String getSymbol() {
+        return symbol;
+    }
+
+    public void setSymbol(String symbol) {
+        this.symbol = symbol;
     }
 }

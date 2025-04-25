@@ -15,6 +15,7 @@ public class InventoryServiceImpl implements InventoryService {
     InventoryRepository inventoryRepository;
     @Override
     public Inventory insertInventory(Inventory inventory) {
+
         return inventoryRepository.save(inventory);
     }
 
@@ -36,5 +37,14 @@ public class InventoryServiceImpl implements InventoryService {
             e.printStackTrace();
             return null;
         }
+    }
+
+    @Override
+    public double getStockById(long id) {
+        Inventory inventory =  inventoryRepository.findItemsWithAvailabilityById(id);
+        if(inventory!=null){
+        return inventory.getTotalStock();
+        }
+        return 0;
     }
 }

@@ -21,8 +21,11 @@
             <form action="addUnit" method="post">
                 <div class="mb-4">
                     <label for="unitName" class="block text-gray-700 font-semibold">Unit Name</label>
-                    <input type="text" id="unitName" name="unitName" required
-                        class="w-full m-1 px-3 py-1 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <input type="text" id="unitName" name="unitName" required class="w-full m-1 px-3 py-1 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <label for="subUnitName" class="block text-gray-700 font-semibold">Sub UnitName</label>
+                        <input type="text" id="subUnitName" name="subUnitName" required class="w-full m-1 px-3 py-1 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <label for="symbol" class="block text-gray-700 font-semibold">Unit Symbol</label>
+                        <input type="text" id="symbol" name="symbol" required class="w-full m-1 px-3 py-1 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
                 </div>
                 <button type="submit" class="w-full bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600">Submit</button>
             </form>
