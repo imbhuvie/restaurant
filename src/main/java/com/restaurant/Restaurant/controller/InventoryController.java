@@ -278,7 +278,7 @@ public class InventoryController {
 
     //    =======================================LOGIN & REGISTER END-POINTS====================================================
 //    TO SHOW MEASUREMENT UNITS
-    @GetMapping("/unit")
+    @GetMapping("/units")
     public String showAllUnits(Model model, HttpSession session) {
         Employee employee = (Employee) session.getAttribute("currentUser");
         if (employee != null) {
