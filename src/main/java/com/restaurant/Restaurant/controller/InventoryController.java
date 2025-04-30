@@ -313,15 +313,18 @@ public class InventoryController {
     public String insertMeasurementUnit(@ModelAttribute("measurementUnit") MeasurementUnit unit, RedirectAttributes redirectAttributes, HttpSession session) {
         Employee employee = (Employee) session.getAttribute("currentUser");
         if (employee != null) {
-            MeasurementUnit measurementUnit = measurementUnitService.addUnit(unit);
-            if (measurementUnit != null) {
+            System.out.println(unit);
+            String message = measurementUnitService.addUnit(unit);
+            if (message.equals("added")) {
                 redirectAttributes.addFlashAttribute("msg", "Unit Added.");
-            } else {
+            } else if(message.equals("exists")){
+                redirectAttributes.addFlashAttribute("error", "Unit Exists.");
+            }else{
                 redirectAttributes.addFlashAttribute("error", "Unit not added.");
             }
             return "redirect:add-unit";
         } else {
-//            redirect.addFlashAttribute("error","Login please");
+            redirectAttributes.addFlashAttribute("error","Login please");
             return "redirect:login";
         }
     }

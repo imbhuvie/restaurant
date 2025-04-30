@@ -5,6 +5,6 @@ import com.restaurant.Restaurant.entity.MeasurementUnit;
 import java.util.List;
 
 public interface MeasurementUnitService {
-    MeasurementUnit addUnit(MeasurementUnit measurementUnit);
+    String addUnit(MeasurementUnit measurementUnit);
     List<MeasurementUnit> allUnits();
 }

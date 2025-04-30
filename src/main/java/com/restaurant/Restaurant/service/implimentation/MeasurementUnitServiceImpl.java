@@ -12,13 +12,32 @@ import java.util.List;
 public class MeasurementUnitServiceImpl implements MeasurementUnitService {
     @Autowired
     MeasurementUnitRepository measurementUnitRepository;
+
     @Override
-    public MeasurementUnit addUnit(MeasurementUnit measurementUnit) {
-        MeasurementUnit existUnit = measurementUnitRepository.findByUnitName(measurementUnit.getUnitName());
-        if(existUnit==null){
-        return measurementUnitRepository.save(measurementUnit);
+    public String addUnit(MeasurementUnit measurementUnit) {
+        try {
+            List<MeasurementUnit> existUnit = measurementUnitRepository.findByUnitName(measurementUnit.getUnitName());
+            if (existUnit == null) {
+                measurementUnitRepository.save(measurementUnit);
+                return "added";
+            } else {
+                boolean isFound = true;
+                for (MeasurementUnit unit : existUnit) {
+                    if ((unit.getSymbol().equals(measurementUnit.getSymbol()))) {
+                        return "exists";
+                    } else {
+                        isFound = false;
+                    }
+                }
+                if (!isFound) {
+                    measurementUnitRepository.save(measurementUnit);
+                    return "added";
+                }
+                return "error";
+            }
+        } catch (Exception e) {
+            return "error";
         }
-        else return null;
     }
 
     @Override

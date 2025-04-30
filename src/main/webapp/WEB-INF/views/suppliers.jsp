@@ -30,10 +30,10 @@
                         <thead>
                             <tr class="bg-blue-500 text-white">
                                 <th class="border border-gray-300 px-4 py-2">S. No. </th>
-                                <th class="border border-gray-300 px-4 py-2">Supplier Name</th>
-                                <th class="border border-gray-300 px-4 py-2">Supplier Contact</th>
-                                <th class="border border-gray-300 px-4 py-2">Supplier Person Name</th>
-                                <th class="border border-gray-300 px-4 py-2">Supplier Person Contact</th>
+                                <th class="border border-gray-300 px-4 py-2">Firm Name</th>
+                                <th class="border border-gray-300 px-4 py-2">Firm Contact</th>
+                                <th class="border border-gray-300 px-4 py-2">Contact Person Name</th>
+                                <th class="border border-gray-300 px-4 py-2">Supplier Person Mobile</th>
                                 <th class="border border-gray-300 px-4 py-2">Supplier Address</th>
                             </tr>
                         </thead>
