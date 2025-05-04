@@ -29,7 +29,7 @@
                                     class="w-full m-1 px-3 py-1 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
                                     <option selected disabled>select</option>
                                     <c:forEach items="${items}" var="item">
-                                            <option value=${item.itemId} data-unit="${item.unit.unitName}">${item.itemName}(${item.itemId})</option>
+                                            <option value=${item.itemId} data-symbol="${item.unit.symbol}"  data-unit="${item.unit.unitName}">${item.itemName}(${item.itemId})</option>
                                     </c:forEach>
                                     </select>
                             </div>

@@ -12,9 +12,15 @@ import java.util.List;
 @Repository
 public interface InventoryRepository extends JpaRepository<Inventory,Long> {
 
-    @Query(value = "select * from inventory where item_id=:itemId order by inventory_id desc limit 1" , nativeQuery = true)
-    Inventory findInventoryByItemId(@Param("itemId") Long itemId);
+    Inventory findTopByOrderByInventoryIdDesc(); // for getting last inserted inventory
 
-    @Query(value = "SELECT * FROM `demorestaurant`.`inventory` WHERE `item_id` = :itemId  ORDER BY `date` DESC LIMIT 1;" , nativeQuery = true)
-    Inventory findItemsWithAvailabilityById(@Param("itemId") long id);
+    @Query(value = "select * from inventory where item_id=:itemId order by inventory_id desc limit 1" , nativeQuery = true)
+    Inventory findInventoryByItemId(@Param("itemId") String itemId);
+
+    @Query(value = "SELECT * FROM `demorestaurant`.`inventory` WHERE `item_id` = :itemId  ORDER BY `inventory_id` DESC LIMIT 1;" , nativeQuery = true)
+    Inventory findItemsWithAvailabilityById(@Param("itemId") String itemId);
 }
+
+
+
+

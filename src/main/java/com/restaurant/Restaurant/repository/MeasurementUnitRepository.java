@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface MeasurementUnitRepository extends JpaRepository<MeasurementUnit,Long> {
+public interface MeasurementUnitRepository extends JpaRepository<MeasurementUnit,String> {
     List<MeasurementUnit> findByUnitName(String unitName);
+    MeasurementUnit findTopByOrderByIdDesc();
 }

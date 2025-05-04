@@ -8,11 +8,11 @@ import java.util.List;
 public interface InventoryService {
 
     Inventory insertInventory(Inventory inventory);
-    Inventory findInventoryById(int supplierId);
+    Inventory findInventoryById(String supplierId);
     List<Inventory> findAllInventory();
 
-    Inventory findInventoryByItemId(Long itemId);
+    Inventory findInventoryByItemId(String itemId);
 
 
-    double getStockById(long id);
+    double getStockById(String id);
 }

@@ -6,6 +6,8 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface EmployeeRepository extends JpaRepository<Employee,Long> {
+    Employee findTopByOrderByIdDesc();  // Get last inserted employee
+
     Employee findByUserName(String username);
 
     Employee findByContact(String contact);

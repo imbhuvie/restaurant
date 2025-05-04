@@ -7,10 +7,10 @@ import java.util.List;
 
 public interface ItemService {
 
-    Item getItemById(Long itemId);
+    Item getItemById(String itemId);
     Item insertItem(Item item);
     List<Item> findAllItems();
 
 
-
+    boolean deleteItemById(String id);
 }

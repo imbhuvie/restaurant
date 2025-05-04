@@ -5,8 +5,8 @@ import jakarta.persistence.*;
 @Entity
 public class Supplier {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long supplierId;
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private String supplierId;
     @Column(nullable = false)
     private String supplierName;
     private String supplierAddress;
@@ -18,11 +18,11 @@ public class Supplier {
 
     private String supplierPersonContact;
 
-    public Long getSupplierId() {
+    public String getSupplierId() {
         return supplierId;
     }
 
-    public void setSupplierId(Long supplierId) {
+    public void setSupplierId(String supplierId) {
         this.supplierId = supplierId;
     }
 

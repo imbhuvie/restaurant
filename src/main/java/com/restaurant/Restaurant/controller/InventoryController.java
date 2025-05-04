@@ -7,6 +7,7 @@ import com.restaurant.Restaurant.service.MeasurementUnitService;
 import com.restaurant.Restaurant.service.SupplierService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -58,10 +59,15 @@ public class InventoryController {
 
     //  TO GOTO ADD SUPPLIER PAGE
     @GetMapping("/add-supplier")
-    public String goToAddSuppliers(Model model, HttpSession session) {
+    public String goToAddSuppliers(Model model, HttpSession session,@RequestParam(value ="id", required = false) String id) {
         Employee employee = (Employee) session.getAttribute("currentUser");
         if (employee != null) {
-            model.addAttribute("supplier", new Supplier());
+
+            Supplier supplier = new Supplier();
+            if(id!=null){
+                supplier = supplierService.findSupplierById(id);
+            }
+            model.addAttribute("supplier", supplier);
             return "addSupplier";
         } else {
 //            redirect.addFlashAttribute("error","Login please");
@@ -74,10 +80,16 @@ public class InventoryController {
     public String insertSupplier(@ModelAttribute("supplier") Supplier supplier, RedirectAttributes redirectAttributes, HttpSession session) {
         Employee employee = (Employee) session.getAttribute("currentUser");
         if (employee != null) {
+            String id = supplier.getSupplierId();
             Supplier supplier1 = supplierService.insertSupplier(supplier);
             if (supplier1 != null) {
+                if(id!=null){
+                    redirectAttributes.addFlashAttribute("msg", "Supplier updated.");
+                    return "redirect:/suppliers";
+                }else{
                 redirectAttributes.addFlashAttribute("msg", "Supplier added");
                 return "redirect:add-supplier";
+                }
             } else {
                 redirectAttributes.addFlashAttribute("error", "Supplier not added");
                 return "redirect:add-supplier";
@@ -87,6 +99,26 @@ public class InventoryController {
             return "redirect:login";
         }
     }
+
+    // Delete Supplier by Id
+    @GetMapping("delete-supplier")
+    public String deleteSupplierById(@RequestParam("id") String id, HttpSession session,RedirectAttributes redirect) {
+        Employee employee = (Employee) session.getAttribute("currentUser");
+        if (employee != null) {
+            System.out.println(id);
+            if(supplierService.deleteSupplierById(id)){
+                redirect.addFlashAttribute("msg","Supplier deleted.");
+                return "redirect:/suppliers";
+            }else {
+                redirect.addFlashAttribute("error","Supplier not deleted.");
+                return "redirect:/suppliers";
+            }
+        } else {
+            redirect.addFlashAttribute("error","Login please");
+            return "redirect:login";
+        }
+    }
+
 
 
 //    =======================================ITEMS END-POINTS====================================================
@@ -110,10 +142,16 @@ public class InventoryController {
 
     //    TO GOTO ADD ITEMS PAGE
     @GetMapping("/add-item")
-    public String goToAddItems(Model model, HttpSession session) {
+    public String goToAddItems(Model model, HttpSession session,@RequestParam(value ="id", required = false) String id) {
         Employee employee = (Employee) session.getAttribute("currentUser");
         if (employee != null) {
             Item item = new Item();
+//            System.out.println(id);
+            if(id!=null){
+                item= itemService.getItemById(id);
+//                System.out.println(item);
+            }else{
+            }
             model.addAttribute("item", item);
             model.addAttribute("units", measurementUnitService.allUnits());
             return "addItems";
@@ -128,17 +166,42 @@ public class InventoryController {
     public String insertItem(@ModelAttribute("item") Item item, RedirectAttributes redirectAttributes, HttpSession session) {
         Employee employee = (Employee) session.getAttribute("currentUser");
         if (employee != null) {
-            System.out.println(item);
+            String id=item.getItemId();
             Item item1 = itemService.insertItem(item);
             if (item1 != null) {
-                redirectAttributes.addFlashAttribute("msg", "Item added");
-                return "redirect:add-item";
+                if(id!=null){
+                    System.out.println(item);
+                    redirectAttributes.addFlashAttribute("msg", "Item updated");
+                    return "redirect:/items";
+                }else {
+                    redirectAttributes.addFlashAttribute("msg", "Item added");
+                    return "redirect:add-item";
+                }
             } else {
                 redirectAttributes.addFlashAttribute("error", "Item not added");
                 return "redirect:add-item";
             }
         } else {
 //            redirect.addFlashAttribute("error","Login please");
+            return "redirect:login";
+        }
+    }
+
+    // Delete Item by Id
+    @GetMapping("delete-item")
+    public String deleteItemById(@RequestParam("id") String id, HttpSession session,RedirectAttributes redirect) {
+        Employee employee = (Employee) session.getAttribute("currentUser");
+        if (employee != null) {
+            System.out.println(id);
+            if(itemService.deleteItemById(id)){
+                redirect.addFlashAttribute("msg","Item deleted.");
+                return "redirect:/items";
+            }else {
+                redirect.addFlashAttribute("error","Item not deleted.");
+                return "redirect:/items";
+            }
+        } else {
+            redirect.addFlashAttribute("error","Login please");
             return "redirect:login";
         }
     }
@@ -222,11 +285,8 @@ public class InventoryController {
         Employee employee = (Employee) session.getAttribute("currentUser");
         if (employee != null) {
             List<Item> items = itemService.findAllItems();
-//        List<Supplier> suppliers = supplierService.findAllSuppliers();
-            System.out.println(items);
-//        System.out.println(suppliers);
+//            System.out.println(items);
             model.addAttribute("items", items);
-//        model.addAttribute("suppliers", suppliers);
             model.addAttribute("inventory", new Inventory());
             return "issueInventory";
         } else {
@@ -237,27 +297,28 @@ public class InventoryController {
 
     @GetMapping("/get-available-stock")
     @ResponseBody  // This is IMPORTANT for AJAX to receive raw data
-    public double getAvailableStock(@RequestParam("id") long id, HttpSession session) {
+    public double getAvailableStock(@RequestParam("id") String id, HttpSession session) {
         Employee employee = (Employee) session.getAttribute("currentUser");
         if (employee != null) {
+            System.out.println("===================="+id+"==================");
             return inventoryService.getStockById(id);
         } else return 0;
     }
 
-    //  PURCHASE INVENTORY
+    //  ISSUE INVENTORY
     @PostMapping("/issueInventory")
     public String issuedInventory(@ModelAttribute("inventory") Inventory inventory, RedirectAttributes redirectAttributes, HttpSession session) {
         Employee employee = (Employee) session.getAttribute("currentUser");
         if (employee != null) {
-            System.out.println(inventory.getIssuedStock());
+            System.out.println("STOCK TOBE ISSUE : "+inventory.getIssuedStock());
             Inventory inventoryExists = inventoryService.findInventoryByItemId(inventory.getItem().getItemId());
-
+            System.out.println(inventoryExists);
             if (inventoryExists != null) {
                 if (inventory.getIssuedStock() < inventoryExists.getTotalStock()) {
-                    inventoryExists.setOpeningStock(inventoryExists.getTotalStock());
-                    inventoryExists.setTotalStock(inventoryExists.getTotalStock() - inventory.getIssuedStock());
-                    inventoryExists.setClosingStock((inventoryExists.getTotalStock()));
-                    Inventory inventory1 = inventoryService.insertInventory(inventoryExists);
+                    inventory.setOpeningStock(inventoryExists.getTotalStock());
+                    inventory.setTotalStock(inventoryExists.getTotalStock() - inventory.getIssuedStock());
+                    inventory.setClosingStock((inventory.getTotalStock()));
+                    Inventory inventory1 = inventoryService.insertInventory(inventory);
                     redirectAttributes.addFlashAttribute("msg", "stock issued successfully.");
                     return "redirect:issue-inventory";
                 } else {
@@ -297,10 +358,14 @@ public class InventoryController {
 
     //    TO GOTO ADD MEASUREMENT UNITS
     @GetMapping("/add-unit")
-    public String goToAddMeasurementUnit(Model model, HttpSession session) {
+    public String goToAddMeasurementUnit(Model model, HttpSession session,@RequestParam(value ="id", required = false) String id) {
         Employee employee = (Employee) session.getAttribute("currentUser");
         if (employee != null) {
-            model.addAttribute("measurementUnit", new MeasurementUnit());
+            MeasurementUnit unit = new MeasurementUnit();
+            if(id!=null){
+                unit=measurementUnitService.findUnitById(id);
+            }
+            model.addAttribute("measurementUnit", unit);
             return "addUnits";
         } else {
 //            redirect.addFlashAttribute("error","Login please");
@@ -313,10 +378,16 @@ public class InventoryController {
     public String insertMeasurementUnit(@ModelAttribute("measurementUnit") MeasurementUnit unit, RedirectAttributes redirectAttributes, HttpSession session) {
         Employee employee = (Employee) session.getAttribute("currentUser");
         if (employee != null) {
+            String id=unit.getId();
             System.out.println(unit);
             String message = measurementUnitService.addUnit(unit);
             if (message.equals("added")) {
+                if(id!=null){
+                redirectAttributes.addFlashAttribute("msg", "Unit updated.");
+                    return "redirect:/units";
+                }else{
                 redirectAttributes.addFlashAttribute("msg", "Unit Added.");
+                }
             } else if(message.equals("exists")){
                 redirectAttributes.addFlashAttribute("error", "Unit Exists.");
             }else{
@@ -325,6 +396,24 @@ public class InventoryController {
             return "redirect:add-unit";
         } else {
             redirectAttributes.addFlashAttribute("error","Login please");
+            return "redirect:login";
+        }
+    }
+    // Delete Unit by Id
+    @GetMapping("delete-unit")
+    public String deleteUnitById(@RequestParam("id") String id, HttpSession session,RedirectAttributes redirect) {
+        Employee employee = (Employee) session.getAttribute("currentUser");
+        if (employee != null) {
+            System.out.println(id);
+            if(measurementUnitService.deleteUnitById(id)){
+                redirect.addFlashAttribute("msg","Unit deleted.");
+                return "redirect:/units";
+            }else {
+                redirect.addFlashAttribute("error","Unit not deleted.");
+                return "redirect:/units";
+            }
+        } else {
+            redirect.addFlashAttribute("error","Login please");
             return "redirect:login";
         }
     }

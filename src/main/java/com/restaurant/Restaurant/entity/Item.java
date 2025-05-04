@@ -7,8 +7,8 @@ import lombok.Data;
 @Entity
 public class Item {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long itemId;
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private String itemId;
     @Column(nullable = false)
     private String itemName;
 
@@ -18,11 +18,12 @@ public class Item {
 
     private String itemDescription;
 
-    public Long getItemId() {
+
+    public String getItemId() {
         return itemId;
     }
 
-    public void setItemId(Long itemId) {
+    public void setItemId(String itemId) {
         this.itemId = itemId;
     }
 

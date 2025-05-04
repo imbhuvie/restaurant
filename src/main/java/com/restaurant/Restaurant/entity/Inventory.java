@@ -6,14 +6,13 @@ import java.util.Date;
 @Entity
 public class Inventory {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long inventoryId;
+    private String inventoryId;
     @ManyToOne
     @JoinColumn(name = "item_id", nullable = false)
     private Item item;
 
     @ManyToOne
-    @JoinColumn(name = "supplier_id", nullable = false)
+    @JoinColumn(name = "supplier_id",nullable = true)
     private Supplier supplier;
 
     @Column(nullable = false)
@@ -39,11 +38,11 @@ public class Inventory {
         this.date=new Date();
     }
 
-    public Long getInventoryId() {
+    public String getInventoryId() {
         return inventoryId;
     }
 
-    public void setInventoryId(Long inventoryId) {
+    public void setInventoryId(String inventoryId) {
         this.inventoryId = inventoryId;
     }
 

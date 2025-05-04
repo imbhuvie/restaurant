@@ -35,6 +35,7 @@
                                 <th class="border border-gray-300 px-4 py-2">Contact Person Name</th>
                                 <th class="border border-gray-300 px-4 py-2">Supplier Person Mobile</th>
                                 <th class="border border-gray-300 px-4 py-2">Supplier Address</th>
+                                <th class="border border-gray-300 px-4 py-2">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -49,6 +50,10 @@
                                     <td class="border border-gray-300 px-4 py-2">${supplier.supplierPersonName}</td>
                                     <td class="border border-gray-300 px-4 py-2">${supplier.supplierPersonContact}</td>
                                     <td class="border border-gray-300 px-4 py-2">${supplier.supplierAddress}</td>
+                                    <td class="border border-gray-300 px-4 py-2">
+                                        <a href="add-supplier?id=${supplier.supplierId}"  class="p-1 rounded px-3 bg-yellow-600 text-white font-medium" >EDIT</a>
+                                        <a href="delete-supplier?id=${supplier.supplierId}" class="p-1 rounded px-3 bg-red-500 text-white font-medium" >DELETE</a>
+                                    </td>
                                 </tr>
                             </c:forEach>
                         </tbody>

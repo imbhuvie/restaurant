@@ -13,35 +13,62 @@ public class MeasurementUnitServiceImpl implements MeasurementUnitService {
     @Autowired
     MeasurementUnitRepository measurementUnitRepository;
 
+    public String generateNextUnitId() {
+        MeasurementUnit lastUnit = measurementUnitRepository.findTopByOrderByIdDesc();
+        if (lastUnit == null) {
+            return "UN01";
+        }
+
+        String lastId = lastUnit.getId(); // e.g., UN05
+        int number = Integer.parseInt(lastId.substring(2)); // 05 → 5
+        number++;
+        return String.format("UN%02d", number); // UN06
+    }
     @Override
     public String addUnit(MeasurementUnit measurementUnit) {
+        if(measurementUnit.getId()==null){
+        measurementUnit.setId(generateNextUnitId());
+        }
         try {
             List<MeasurementUnit> existUnit = measurementUnitRepository.findByUnitName(measurementUnit.getUnitName());
-            if (existUnit == null) {
+
+            if (existUnit.isEmpty()) {
                 measurementUnitRepository.save(measurementUnit);
                 return "added";
             } else {
-                boolean isFound = true;
                 for (MeasurementUnit unit : existUnit) {
-                    if ((unit.getSymbol().equals(measurementUnit.getSymbol()))) {
+                    if ((unit.getSymbol().equalsIgnoreCase(measurementUnit.getSymbol()))) {
                         return "exists";
-                    } else {
-                        isFound = false;
                     }
                 }
-                if (!isFound) {
-                    measurementUnitRepository.save(measurementUnit);
-                    return "added";
-                }
-                return "error";
+                measurementUnitRepository.save(measurementUnit);
+                return "added";
             }
         } catch (Exception e) {
             return "error";
         }
     }
 
+
+
     @Override
     public List<MeasurementUnit> allUnits() {
         return measurementUnitRepository.findAll();
+    }
+
+    @Override
+    public boolean deleteUnitById(String id) {
+        try{
+            measurementUnitRepository.deleteById(id);
+            return true;
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+            return false;
+        }
+    }
+
+    @Override
+    public MeasurementUnit findUnitById(String id) {
+        return measurementUnitRepository.findById(id).get();
     }
 }

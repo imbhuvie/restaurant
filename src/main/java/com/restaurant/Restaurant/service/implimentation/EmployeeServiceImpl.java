@@ -11,8 +11,19 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Autowired
     EmployeeRepository employeeRepository;
 
+    public String generateNextEmpId() {
+        Employee lastEmployee = employeeRepository.findTopByOrderByIdDesc();
+        if (lastEmployee == null) {
+            return "EMP01";
+        }
+        String lastId = lastEmployee.getId(); // e.g., EMP04
+        int number = Integer.parseInt(lastId.substring(3)); // 04 → 4
+        number++;
+        return String.format("EMP%02d", number); // EMP05
+    }
     @Override
     public Employee insertEmployee(Employee employee) {
+        employee.setId(generateNextEmpId());
         return employeeRepository.save(employee);
     }
 

@@ -78,11 +78,7 @@ public class UserAuthController {
     //  To Logout
     @GetMapping("/logout")
     public String logoutEmployee(HttpSession session) {
-//        Employee employee = (Employee) session.getAttribute("currentUser");
-//        if (employee != null) {
-//            session.invalidate();
-//            return "redirect:login";
-//        } else return "redirect:login";
+
         session.invalidate();
             return "redirect:login";
     }

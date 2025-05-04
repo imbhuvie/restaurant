@@ -32,6 +32,7 @@
                                 <th class="border border-gray-300 px-4 py-2">Item Name</th>
                                 <th class="border border-gray-300 px-4 py-2">Measurement Unit</th>
                                 <th class="border border-gray-300 px-4 py-2">Description</th>
+                                <th class="border border-gray-300 px-4 py-2">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -42,6 +43,10 @@
                                     <td class="border border-gray-300 px-4 py-2">${item.itemName}</td>
                                     <td class="border border-gray-300 px-4 py-2">${item.unit.unitName}</td>
                                     <td class="border border-gray-300 px-4 py-2">${item.itemDescription}</td>
+                                    <td class="border border-gray-300 px-4 py-2">
+                                        <a href="add-item?id=${item.itemId}"  class="p-1 rounded px-3 bg-yellow-600 text-white font-medium" >EDIT</a>
+                                        <a href="delete-item?id=${item.itemId}" class="p-1 rounded px-3 bg-red-500 text-white font-medium" >DELETE</a>
+                                    </td>
                                 </tr>
                             </c:forEach>
                         </tbody>

@@ -8,8 +8,8 @@ import jakarta.persistence.Id;
 @Entity
 public class MeasurementUnit {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private String id;
     private String unitName;
     private String subUnitName;
     private String symbol;
@@ -24,11 +24,11 @@ public class MeasurementUnit {
                 '}';
     }
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 

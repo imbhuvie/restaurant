@@ -12,7 +12,7 @@
     <%@include file="navbar.jsp" %>
 
     <div class="flex justify-center w-full mx-auto p-10">
-    <div class="bg-gray-400 p-8 rounded-lg shadow-lg w-96">
+    <div class="bg-gray-400 p-8 rounded-lg shadow-lg ">
         <c:if test="${not empty msg}" >
                  <p class="text-center text-s text-green-800 " >${msg}</p>
              </c:if>
@@ -32,6 +32,7 @@
                                 <th class="border border-gray-300 px-4 py-2">Unit Name</th>
                                 <th class="border border-gray-300 px-4 py-2">SubUnit Name</th>
                                 <th class="border border-gray-300 px-4 py-2">Unit Symbol</th>
+                                <th class="border border-gray-300 px-4 py-2">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -42,6 +43,11 @@
                                     <td class="border border-gray-300 px-4 py-2">${unit.unitName}</td>
                                     <td class="border border-gray-300 px-4 py-2">${unit.subUnitName}</td>
                                     <td class="border border-gray-300 px-4 py-2">${unit.symbol}</td>
+                                    <td class="border border-gray-300 px-4 py-2">
+                                    <a href="add-unit?id=${unit.id}"  class="p-1 rounded px-3 bg-yellow-600 text-white font-medium" >EDIT</a>
+                                    <a href="delete-unit?id=${unit.id}" class="p-1 rounded px-3 bg-red-500 text-white font-medium" >DELETE</a>
+
+                                    </td>
                                 </tr>
                             </c:forEach>
                         </tbody>
